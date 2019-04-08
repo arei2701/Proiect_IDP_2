@@ -1,2 +1,0 @@
-# Proiect-IDP
-Proiect mirific
