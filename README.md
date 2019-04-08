@@ -1,5 +1,6 @@
 # Proiect-IDP
 Popa Andrei-Marius, 341C3
+
 Un proiect mirific
 
 ![Architecture diagram](img1.png)
