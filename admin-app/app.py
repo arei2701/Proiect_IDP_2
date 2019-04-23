@@ -1,15 +1,17 @@
 from flask import Flask, render_template, request, make_response, g
-from redis import Redis
 import os
 import socket
 import random
-import json
+import urllib.request
+import json as JSON
+from redis import *
 
 option_a = os.getenv('OPTION_A', "Cats")
 option_b = os.getenv('OPTION_B', "Dogs")
 hostname = socket.gethostname()
 
 app = Flask(__name__)
+addr = "localhost"
 
 def get_redis():
     if not hasattr(g, 'redis'):
@@ -23,22 +25,30 @@ def hello():
         voter_id = hex(random.getrandbits(64))[2:-1]
 
     vote = None
-
+    
+    redis = get_redis()
+    if not redis: 
+        return "problem" 
     if request.method == 'POST':
-        redis = get_redis()
-        vote = request.form['vote']
-        data = json.dumps({'voter_id': voter_id, 'vote': vote})
-        redis.rpush('votes', data)
-
+        return "ceva"
+    req = []
+    while redis.llen('bookings') != 0:
+        req += [JSON.loads(redis.lpop('bookings'))]
     resp = make_response(render_template(
         'index.html',
-        option_a=option_a,
-        option_b=option_b,
         hostname=hostname,
-        vote=vote,
+        requests=req,
     ))
     resp.set_cookie('voter_id', voter_id)
     return resp
+
+@app.route("/restos")
+def get_restos():
+    restos = JSON.loads(urllib.request.urlopen("http://" + addr + ":5000/get_restos").read())
+    r_name = []
+    for r in restos:
+        r_name += [r["name"]]
+    return JSON.loads(urllib.request.urlopen("http://" + addr + ":5000/get_restos").read())
 
 
 if __name__ == "__main__":

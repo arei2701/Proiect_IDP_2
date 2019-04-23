@@ -1,40 +1,46 @@
 version: "3"
 
 services:
-  vote:
-    build: ./vote
-    command: python app.py
-    image: arei2701/proiect-idp:vote-app
-    volumes:
-     - ./vote:/app
-    ports:
-      - "5000:80"
+  client-app:
+    build: ./client-app
+    command: python -u app.py
+    image: arei2701/proiect-idp:client-app
     networks:
       - front-tier
       - back-tier
+    ports:
+      - "5000:80"
 
-  result:
-    build: ./result
-    image: arei2701/proiect-idp:result-app
-    command: nodemon server.js
-    volumes:
-      - ./result:/app
+  admin-app:
+    build: ./admin-app
+    image: arei2701/proiect-idp:admin-app
+    command: python app.py
     ports:
       - "5001:80"
       - "5858:5858"
     networks:
       - front-tier
       - back-tier
-
-  worker:
-    build:
-      context: ./worker
-    image: arei2701/proiect-idp:worker-app
     depends_on:
       - "redis"
-    networks:
-      - back-tier
 
+  manager-app:
+    build: ./db_manager
+    image: arei2701/proiect-idp:db-manager
+    command: python app.py
+    ports:
+      - "5002:5002"
+      - "5859:5859"
+    networks:
+      - front-tier
+      - back-tier
+    depends_on:
+      - "db"
+    environment:
+      - FLASK_RUN_PORT=5002
+    links:
+      - db
+      
   redis:
     image: redis:alpine
     container_name: redis
@@ -43,11 +49,15 @@ services:
       - back-tier
 
   db:
-    image: postgres:9.4
-    container_name: db
+    image: mysql:5.7
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: arei2701
     volumes:
-      - "db-data:/var/lib/postgresql/data"
+      - ./db:/docker-entrypoint-initdb.d
     networks:
+      - front-tier
       - back-tier
 
 volumes:

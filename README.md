@@ -1,4 +1,4 @@
-# Proiect-IDP
+# Proiect_IDP_2
 Popa Andrei-Marius, 341C3
 
 ![Architecture diagram](img1.png)

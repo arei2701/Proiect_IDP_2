@@ -1,0 +1,7 @@
+Flask
+Redis
+gunicorn
+mysql-connector
+flask_sqlalchemy
+SQLAlchemy
+pymysql
