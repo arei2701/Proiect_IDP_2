@@ -15,7 +15,7 @@ def get_redis():
         g.redis = Redis(host="redis", db=0, socket_timeout=5)
     return g.redis
 pushes = 0
-@app.route("/")
+@app.route("/",  methods=['POST','GET'])
 def hello():
     global pushes
     voter_id = request.cookies.get('voter_id')
