@@ -3,27 +3,18 @@ version: "3"
 services:
   client-app:
     build: ./client-app
-    command: python -u app.py
+    command: python app.py
     image: arei2701/proiect-idp:client-app
     networks:
       - front-tier
       - back-tier
     ports:
-      - "5000:80"
-
-  admin-app:
-    build: ./admin-app
-    image: arei2701/proiect-idp:admin-app
-    command: python app.py
-    ports:
-      - "5001:80"
-      - "5858:5858"
-    networks:
-      - front-tier
-      - back-tier
-    depends_on:
-      - "redis"
-
+      - "5000:5000"
+    environment:
+      - FLASK_RUN_PORT=5000
+    links:
+      - admin-app
+ 
   manager-app:
     build: ./db_manager
     image: arei2701/proiect-idp:db-manager
@@ -48,6 +39,23 @@ services:
     networks:
       - back-tier
 
+  admin-app:
+    build: ./admin-app
+    image: arei2701/proiect-idp:admin-app
+    command: python app.py
+    ports:
+      - "5001:5001"
+      - "5858:5858"
+    networks:
+      - front-tier
+      - back-tier
+    depends_on:
+      - "redis"
+    environment:
+      - FLASK_RUN_PORT=5001
+    links:
+      - manager-app
+     
   db:
     image: mysql:5.7
     ports:

@@ -12,7 +12,7 @@
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script>
-      var tbl = {}
+      var tbl = {};
     </script>
     {% for r in restaurants %}
     <script>
@@ -42,7 +42,7 @@
         <form id="res" name='form' method="POST" action="/">
           Pick a restaurant: <select id="pick-resto" name="resto_name" onchange="myFunction()">
             {% for r in restaurants %}
-              <option value="{{r.id}">{{r.name}}</option>
+              <option value="{{r.id}}">{{r.name}}</option>
             {% endfor %}
           </select><br>
           Name: <input type="text" name="name" required> <br>

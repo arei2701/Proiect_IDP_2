@@ -44,12 +44,14 @@ def hello():
 
 @app.route("/restos")
 def get_restos():
-    restos = JSON.loads(urllib.request.urlopen("http://" + addr + ":5000/get_restos").read())
-    r_name = []
-    for r in restos:
-        r_name += [r["name"]]
-    return JSON.loads(urllib.request.urlopen("http://" + addr + ":5000/get_restos").read())
+    url = "http://manager-app:5002/get_restos"
+    res = urllib.request.urlopen(url).read().decode("utf-8")
+    #restos = JSON.loads(res)
+    #r_name = []
+    #for r in restos:
+     #   r_name += [r["name"]]
+    return res
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=5001, debug=True, threaded=True)
