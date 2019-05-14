@@ -33,8 +33,8 @@ def hello():
         pushes = redis.rpush('bookings', data)
     resp = make_response(render_template(
         'index.html',
-        #restaurants = JSON.loads(res),
-        restaurants = [{'id': 0, 'name': "Maria si Ion"}, {'id': 1,'name': "Roxy Pub"}, {'id': 2,'name': "Pub 18"}],
+        restaurants = JSON.loads(res),
+                                         #restaurants = [{'id': 0, 'name': "Maria si Ion"}, {'id': 1,'name': "Roxy Pub"}, {'id': 2,'name': "Pub 18"}],
         hostname=hostname,
         len = pushes,
         reservations=[["aaa", "22.5.1990", "20:20", "3"], ["bbb", "25,02,1990", "18:00", "44"]],

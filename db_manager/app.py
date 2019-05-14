@@ -37,12 +37,23 @@ def hello_world():
 
 @app.route('/get_restos')
 def get_restos():
+    global db
+    return JSON.dumps(db.session.query(Restos).all(), cls=AlchemyEncoder)
+
+
+@app.route('/add_resto')
+def add_resto():
+    global db
+    me = Restos(request.args.get('name'))
+    if me:
+        db.session.add(me)
+        db.session.commit()
     return JSON.dumps(db.session.query(Restos).all(), cls=AlchemyEncoder)
 
 
 class Restos(db.Model):
     __tablename__ = 'Restos'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     rname = db.Column(db.String(60))
 #    ora_plecare = db.Column(db.Integer)
     
@@ -52,7 +63,7 @@ class Restos(db.Model):
     
 class Tables(db.Model):
     __tablename__ = 'Tables'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     resto_id = db.Column(db.Integer)
     max_people = db.Column(db.Integer)
     
@@ -63,7 +74,7 @@ class Tables(db.Model):
 
 class Bookings(db.Model):
     __tablename__ = 'Bookings'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, db.Sequence('seq_reg_id', start=1, increment=1), primary_key=True)
     id_resto = db.Column(db.Integer)
     id_table = db.Column(db.Integer)
     client_name = db.Column(db.String(60))

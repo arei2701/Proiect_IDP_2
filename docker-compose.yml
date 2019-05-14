@@ -63,7 +63,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: arei2701
     volumes:
-      - ./db:/docker-entrypoint-initdb.d
+      - db-data:/var/lib/mysql
     networks:
       - front-tier
       - back-tier
