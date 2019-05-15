@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yml convert
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: manager-app
+  name: manager-app
+spec:
+  ports:
+  - name: "5002"
+    port: 5002
+    targetPort: 5002
+  - name: "5859"
+    port: 5859
+    targetPort: 5859
+  selector:
+    io.kompose.service: manager-app
+status:
+  loadBalancer: {}

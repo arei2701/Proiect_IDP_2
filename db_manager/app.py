@@ -50,6 +50,20 @@ def add_resto():
         db.session.commit()
     return JSON.dumps(db.session.query(Restos).all(), cls=AlchemyEncoder)
 
+@app.route('/add_reserv')
+def add_resto():
+    global db
+    resto_id = request.args.get('resto_id')
+    table_id = request.args.get('table_id')
+    name = request.args.get('name')
+    client_id = request.args.get('id')
+    bdate = request.args.get('date')
+    btime = request.args.get('time')
+    if me:
+        db.session.add(Bookings(resto_id, table_id, client_id, bdate, btime))
+        db.session.commit()
+    return JSON.dumps(db.session.query(Restos).all(), cls=AlchemyEncoder)
+
 
 class Restos(db.Model):
     __tablename__ = 'Restos'

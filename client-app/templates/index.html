@@ -43,12 +43,15 @@
         <div id="content-container-center">
             <p>{{len}}</p>
             <form id="res" name='form' method="POST" action="/">
-                Pick a restaurant: <select id="pick-resto" name="resto_name" onchange="myFunction()">
-            {% for r in restaurants %}
-              <option value="{{r.id}}">{{r.rname}}</option>
-            {% endfor %}
-          </select><br> Name: <input type="text" name="name" required> <br> Number of people: <input type="number" name="people" required><br> Pick a date: <input type="date" id="datePicker" name="date" required><br> Pick a time: <input type="time" id="time"
-                    name="time" min="9:00" max="18:00" required><br>
+                Pick a restaurant: <select id="pick-resto" name="resto" onchange="myFunction()">
+                    {% for r in restaurants %}
+                    <option value='{"id": "{{r.id}}", "name": "{{r.rname}}" }'>{{r.rname}}</option>
+                    {% endfor %}
+                </select><br>
+                Name: <input type="text" name="name" required> <br>
+                Number of people: <input type="number" name="people" required><br>
+                Pick a date: <input type="date" id="datePicker" name="date" required><br>
+                Pick a time: <input type="time" id="time" name="time" min="9:00" max="18:00" required><br>
                 <button type="submit" name="order">Make reservation</button>
             </form>
             <div id="hostname">

@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose --file docker-compose.yml convert
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: manager-app
+  name: manager-app
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: manager-app
+    spec:
+      containers:
+      - args:
+        - python
+        - app.py
+        env:
+        - name: FLASK_RUN_PORT
+          value: "5002"
+        image: arei2701/proiect-idp:db-manager
+        name: manager-app
+        ports:
+        - containerPort: 5002
+        - containerPort: 5859
+        resources: {}
+      restartPolicy: Always
+status: {}

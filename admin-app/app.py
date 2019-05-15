@@ -38,6 +38,7 @@ def hello():
         'index.html',
         hostname=hostname,
         requests=req,
+        tables={3: [3, 1, 2], 2: [9, 10, 11, 12], 1: [6,7, 8, 5, 4]},
     ))
     resp.set_cookie('voter_id', voter_id)
     return resp

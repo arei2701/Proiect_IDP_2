@@ -13,6 +13,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script>
       var tbl = {}
+      console.log({{tables}})
     </script>
    
     <script>
@@ -39,11 +40,15 @@
             <td>{{r["date"]}}</td>
             <td>{{r["time"]}}</td>
             <td>
+                <select id="pick-resto" name="resto_id" onchange="myFunction()">
+                    {% for t in tables[0] %}
+                    <option value="{{t.id}}">{{t.id}}</option>
+                    {% endfor %}
+                </select>
+            <td>
               <button>Accept</button>
             </td>
-            <td>
-              <button>Check availability</button>
-            </td>
+            
           </tr>
           {% endfor %}
         </table>

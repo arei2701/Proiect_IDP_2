@@ -28,8 +28,9 @@ def hello():
     if request.method == 'POST':
         redis = get_redis()
         if not redis: 
-            return "problem" 
-        data = JSON.dumps({'voter_id': voter_id,'resto_name':request.form["resto_name"], 'name': request.form["name"], 'date': request.form["date"], 'time':request.form["time"], 'people': request.form["people"]})
+            return "problem"
+        resto = JSON.loads(request.form["resto"])
+        data = JSON.dumps({'voter_id': voter_id, 'resto_id': resto["id"], 'resto_name':resto["name"], 'nr_of_people': request.form["people"], 'date': request.form["date"], 'time': request.form["time"], 'id': hostname, 'name':  request.form["name"]})
         pushes = redis.rpush('bookings', data)
     resp = make_response(render_template(
         'index.html',
